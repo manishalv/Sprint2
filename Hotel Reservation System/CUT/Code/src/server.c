@@ -276,7 +276,7 @@ void handle_login_msg (int sockfd, msg_t *msg)
   	printf("Sent %d bytes reply .. \n", ret);
 }
 
-/*Handles username and password send by client
+/*Handles username and password send by client*/
 void handle_uname_passwd_msg (int sockfd, msg_t *msg)
 {
   	msg_t reply_msg;
@@ -712,7 +712,7 @@ void handle_cancel_room(int sockfd, msg_t *msg)
 
 
 
-/*Closes client 
+/* Closes client */
 void handle_client_close(int sock_fd)
 {
 
@@ -723,7 +723,7 @@ void handle_client_close(int sock_fd)
 }
 
 
-/*Process cleints message received from client
+/*Process cleints message received from client */
 void process_client_messages(int sockfd, char *recv_buffer)
 {
   
