@@ -363,8 +363,6 @@ void handle_book_room(int sockfd, msg_t *msg)
 
   	msg_t reply_msg;
   	int flag = 0;
-	
-	//Initializing counters for statistics
   	int single_room_count = 0;
 	int double_room_count = 0;
 	int deluxe_room_count = 0;
@@ -378,40 +376,35 @@ void handle_book_room(int sockfd, msg_t *msg)
       	printf("User name : %s \n", msg->msg_add2_data);
   	
 	
-  	//Checking if the requested room type is single room 
+  	//Reserving single room for a user 
   	if(strcmp(msg->msg_data,"single") == 0)
   	{
-      		//Checking availability of each room  
+      		  
   		for(int i = 0 ; i < 4 ; i++)
 		{
-			//Checking the dates if room is already booked
 			if(r1[i]->available == 1 )
 			{
-				//Comparing check in date of new user and check out of old user
 				int ret1 = checking_dates(r1[i]->check_out,msg->msg_add_data);
 				if(ret1 == 1)
                      		{
 					flag = 1;
-					//Updating new user details in the structure
                         		strcpy(r1[i]->uname,msg->msg_add2_data);     
                         		reply_msg.msg_int = r1[i]->room_no;
                         		strcpy(reply_msg.msg_data,msg->msg_add2_data); 
 					strcpy(r1[i]->check_in,msg->msg_add_data);
 					strcpy(r1[i]->check_out,msg->msg_add1_data);
-					//Sending reply message that room is available
 					reply_msg.msg_type = MSG_ROOM_AVAIL;
                                 
 					break;
 				}
 			}
 			
- 			//Checking if room is not booked
+ 
 			if(r1[i]->available == 0)
 			{
                      
 				flag = 1;
                         	r1[i]->available = 1;
-				//Updating new user details in the structure
 				strcpy(r1[i]->check_in,msg->msg_add_data);
 				strcpy(r1[i]->check_out,msg->msg_add1_data);
                         	strcpy(r1[i]->uname,msg->msg_add2_data);  
@@ -424,7 +417,6 @@ void handle_book_room(int sockfd, msg_t *msg)
 			}
                  
         	}
-		//If no rooms of type single room is available
 		if(flag == 0)
 			reply_msg.msg_type = MSG_ROOM_NOTAVAIL;
 
@@ -626,9 +618,11 @@ void handle_cancel_room(int sockfd, msg_t *msg)
     	if(msg->msg_int < 200 && msg->msg_int > 100)
     	{
         	for(int i = 0; i < 4; i++)
-        	{        
+        	{ 
+			//Checks for the username and room number present in the room structures    
             		if(msg->msg_int == r1[i]->room_no && strcmp(msg->msg_data,r1[i]->uname) == 0 && r1[i]->available == 1)
             		{
+				//Reply sent to the client
                 		r1[i]->available = 0;
                 		reply_msg.msg_type = MSG_CANCELLED;
                 		break;
@@ -712,7 +706,7 @@ void handle_cancel_room(int sockfd, msg_t *msg)
 
 
 
-/*Closes client 
+/*Closes client */
 void handle_client_close(int sock_fd)
 {
 
@@ -723,7 +717,7 @@ void handle_client_close(int sock_fd)
 }
 
 
-/*Process cleints message received from client
+/*Process cleints message received from client*/
 void process_client_messages(int sockfd, char *recv_buffer)
 {
   
