@@ -18,8 +18,6 @@
 #define USER_NOT_FOUND 2
 #define USER_PASSWD_MATCH_FOUND 3
 #define USER_PASSWD_MATCH_NOT_FOUND 4
-#define SINGLE_ROOM_FARE 3000
-
 
 /*User information structure*/
 typedef struct user_info
