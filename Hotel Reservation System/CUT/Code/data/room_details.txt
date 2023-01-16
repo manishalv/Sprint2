@@ -1,0 +1,4 @@
+SINGLE ROOM      	Rs.3000 
+DOUBLE ROOM      	Rs.5000 
+DELUXE ROOM      	Rs.10000 
+SUITE  ROOM      	Rs.15000 
